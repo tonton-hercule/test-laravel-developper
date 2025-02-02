@@ -42,7 +42,7 @@ class DeployController extends Controller
     {
         $shopName = request()->route('subdomain');
 
-        $shop = Boutiques::where('name', $shopName)->first();
+        $shop = Boutiques::with('get_utilisateur')->where('name', $shopName)->first();
         
         if(empty($shop)){
             Alert::toast("Cette boutique n'existe pas !", 'error');
