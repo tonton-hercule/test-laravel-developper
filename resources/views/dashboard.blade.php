@@ -22,18 +22,53 @@ Dashboard
             <!-- Formulaire de création de boutique -->
             <div class="col-md-6 offset-md-3">
                 <h2 class="text-center">Création de boutique</h2>
-                <form method="POST" action="{{ route('deploy.store')}}">
+
+                <form method="POST" action="{{ route('shop.store') }}" id="shopForm">
                     @csrf
-                    <div class="form-group">
-                        <label for="shop_name">Nom de la boutique</label>
-                        <input type="text" class="form-control" name="shop_name" id="shop_name" placeholder="Entrez le nom de la boutique" required>
+                    <div>
+                        <label for="name">Nom de la boutique</label>
+                        <input 
+                            type="text" 
+                            name="name" 
+                            class="form-control"
+                            id="name" 
+                            required 
+                            pattern="^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$"
+                            title="Utilisez uniquement des lettres minuscules, des chiffres et des tirets. Doit commencer et finir par une lettre ou un chiffre."
+                        >
+                        <span id="nameError" style="color: red;"></span>
                     </div>
-                    <button type="submit" class="btn btn-success btn-block mt-3">Déployer</button>
+                    <button type="submit" class="btn btn-success btn-block mt-3">Créer la boutique</button>
                 </form>
+
             </div>
 
         </div>
     </div>
 
+    <script>
+        const nameInput = document.getElementById('name');
+        const nameError = document.getElementById('nameError');
+        
+        nameInput.addEventListener('input', async (e) => {
+            const name = e.target.value.toLowerCase();
+            nameInput.value = name; // Force en minuscules
+            
+            if (!name) return;
+            
+            try {
+                const response = await fetch(`/validate-subdomain/${name}`);
+                const data = await response.json();
+                
+                if (!data.valid) {
+                    nameError.textContent = Object.values(data.errors)[0][0];
+                } else {
+                    nameError.textContent = '';
+                }
+            } catch (error) {
+                console.error('Erreur de validation:', error);
+            }
+        });
+    </script>
 
 @endsection

@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CustomAuthController;
 use App\Http\Controllers\DeployController;
+use App\Http\Controllers\ShopDeploymentController;
 use App\Models\Boutiques;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,9 +21,16 @@ Route::middleware('auth')->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
-    //Route::post('/deploy-boutique', [DeployController::class, 'store'])->name('deploy.store');
+    Route::domain('{shop}.eventchills.com')->group(function () {
+        Route::get('/', [DeployController::class, 'show'])->name('shop.show');
+    });
+
+    Route::get('/validate-subdomain/{name}', [ShopDeploymentController::class, 'validateSubdomain']);
+    Route::post('/shops', [ShopDeploymentController::class, 'store'])->name('shop.store');
+
+    Route::post('/deploy-boutique', [DeployController::class, 'storeShop'])->name('deploy.store');
     // Route pour créer la boutique (stocke le nom en base de données)
-    Route::post('/create-shop', function (Request $request) {
+    /*Route::post('/create-shop', function (Request $request) {
         $request->validate([
             'shop_name' => 'required|unique:boutiques,shop_name|regex:/^[a-z0-9-]+$/i'
         ]);
@@ -38,16 +46,15 @@ Route::middleware('auth')->group(function () {
             'subdomain' => $subdomain
         ]);
         
-        Alert::toast("Votre boutique est prête : http://$subdomain", 'success');
+        Alert::toast("Votre boutique est prête : $subdomain", 'success');
 
         return redirect()->route('dashboard');
-    })->name('deploy.store');
-
+    })->name('deploy.store');*/
 });
 
 
 // Route pour les sous-domaines dynamiques
-Route::domain('{subdomain}.eventchills.com')->group(function () {
+/*Route::domain('{subdomain}.eventchills.com')->group(function () {
     Route::get('/', function ($subdomain, Request $request) {
         // Vérifier si la boutique existe en base de données
         $shop = Boutiques::where('shop_name', $subdomain)->first();
@@ -58,4 +65,4 @@ Route::domain('{subdomain}.eventchills.com')->group(function () {
 
         return view('shop.index', compact('shop'));
     });
-});
+});*/

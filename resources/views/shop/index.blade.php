@@ -5,7 +5,7 @@
 </head>
 <body>
     <h1>Bienvenue chez {{ $shop->shop_name }}</h1>
-    <p>Créé par : {{ $shop->name }}</p>
-    <p>Email : {{ $shop->email }}</p>
+    <p>Créé par : {{ $shop->get_utilisateur->name }}</p>
+    <p>Email : {{ $shop->get_utilisateur->email }}</p>
 </body>
 </html>

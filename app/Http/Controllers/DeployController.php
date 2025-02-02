@@ -64,4 +64,27 @@ class DeployController extends Controller
 
         return redirect()->route('dashboard');
     }
+
+    public function storeShop(Request $request){
+        $request->validate([
+            'shop_name' => 'required|string|unique:boutiques,shop_name|max:255',
+        ]);
+
+        $user = Auth::user();
+
+        $shop = Boutiques::create([
+            'shop_name' => $request->shop_name,
+            'user_id' => $user->id,
+            'subdomain' => $request->shop_name,
+        ]);
+
+        return redirect()->route('shop.show', $shop->name);
+    }
+
+
+    public function show($shopName)
+    {
+        $shop = Boutiques::where('shop_name', $shopName)->firstOrFail();
+        return view('shops.show', ['shop' => $shop]);
+    }
 }

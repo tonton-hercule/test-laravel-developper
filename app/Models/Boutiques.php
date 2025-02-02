@@ -17,10 +17,10 @@ class Boutiques extends Model
      */
     protected $fillable = [
         'user_id',
-        'shop_name',
-        'subdomain',
+        'name',
+        //'subdomain',
     ];
-    
+
 
     public function get_utilisateur()
     {
