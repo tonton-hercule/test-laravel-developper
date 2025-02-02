@@ -16,15 +16,16 @@ Route::get('/', function () {
 Route::post('/custom-register', [CustomAuthController::class, 'register'])->name('custom-register');
 Route::post('/custom-login', [CustomAuthController::class, 'login'])->name('custom-login');
 
+Route::domain('{shop}.eventchills.com')->group(function () {
+    Route::get('/', [DeployController::class, 'show'])->name('shop.show');
+});
+
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
 
-    Route::domain('{shop}.eventchills.com')->group(function () {
-        Route::get('/', [DeployController::class, 'show'])->name('shop.show');
-    });
-
+   
     Route::get('/validate-subdomain/{name}', [ShopDeploymentController::class, 'validateSubdomain']);
     Route::post('/shops', [ShopDeploymentController::class, 'store'])->name('shop.store');
 

@@ -38,7 +38,11 @@ class ShopDeploymentController extends Controller
             ]);
 
             // Redirection vers le nouveau sous-domaine
-            return redirect()->away('https://' . $shop->name . '.eventchills.com');
+            //return redirect()->away('https://' . $shop->name . '.eventchills.com');
+            return redirect()->away(
+                (request()->secure() ? 'https://' : 'http://') . 
+                $shop->name . '.eventchills.com'
+            );
 
         } catch (\Exception $e) {
             Alert::toast("Une erreur est survenue lors de la création de la boutique. " .$e->getMessage(), 'error');
