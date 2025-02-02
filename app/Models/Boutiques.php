@@ -18,7 +18,7 @@ class Boutiques extends Model
     protected $fillable = [
         'user_id',
         'name',
-        //'subdomain',
+        'subdomain',
     ];
 
 

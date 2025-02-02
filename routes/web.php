@@ -15,7 +15,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-    Route::post('/deploy-boutique', [DeployController::class, 'storeShop'])->name('deploy.store');
+    
+    Route::post('/deploy-boutique', [DeployController::class, 'store'])->name('deploy.store');
 });
 
 
