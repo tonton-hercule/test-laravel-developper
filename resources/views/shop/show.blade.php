@@ -9,12 +9,7 @@
 </head>
 
 <body>
-    <h1>{{ $shop->shop_name }}</h1>
-    <div>
-        <p>Propriétaire : {{ $shop->get_utilisateur->name }}</p>
-        <p>Email : {{ $shop->get_utilisateur->email }}</p>
-        <p>Age : {{ $shop->get_utilisateur->age }}</p>
-    </div>
+    Subdomain name : {{request('subdomain')}} / Domain name {{request()->getHost()}}
 </body>
 
 </html>

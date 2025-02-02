@@ -23,7 +23,7 @@ Dashboard
             <div class="col-md-6 offset-md-3">
                 <h2 class="text-center">Création de boutique</h2>
 
-                <form method="POST" action="{{ route('shop.store') }}" id="shopForm">
+                <form method="POST" action="{{ route('deploy.store') }}" id="shopForm">
                     @csrf
                     <div>
                         <label for="name">Nom de la boutique</label>
@@ -45,30 +45,5 @@ Dashboard
 
         </div>
     </div>
-
-    <script>
-        const nameInput = document.getElementById('name');
-        const nameError = document.getElementById('nameError');
-        
-        nameInput.addEventListener('input', async (e) => {
-            const name = e.target.value.toLowerCase();
-            nameInput.value = name; // Force en minuscules
-            
-            if (!name) return;
-            
-            try {
-                const response = await fetch(`/validate-subdomain/${name}`);
-                const data = await response.json();
-                
-                if (!data.valid) {
-                    nameError.textContent = Object.values(data.errors)[0][0];
-                } else {
-                    nameError.textContent = '';
-                }
-            } catch (error) {
-                console.error('Erreur de validation:', error);
-            }
-        });
-    </script>
 
 @endsection
