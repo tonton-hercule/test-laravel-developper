@@ -18,12 +18,13 @@ class DeployController extends Controller
         $user = Auth::user();
 
         // Nettoyer et formater le nom de la boutique
-        $shopName = strtolower(trim($request->shop_name));
+        $shopName = strtolower(trim($request->name));
         $shopName = preg_replace('/\s+/', '-', $shopName); // Remplace les espaces par des tirets
         $shopName = preg_replace('/[^a-z0-9\-]/', '', $shopName); // Supprime les caractères spéciaux
 
         if (empty($shopName)) {
-            return back()->with('error', 'Nom de boutique invalide.');
+            Alert::toast("Nom de boutique invalide !", 'error');
+            return back();
         }
 
         $subdomain = "{$shopName}.eventchills.com";
@@ -34,6 +35,7 @@ class DeployController extends Controller
             'subdomain' => $subdomain
         ]);
 
+        Alert::toast("Boutique créé avec succès !", 'success');
         return redirect()->away('http://' . $shop->name . '.eventchills.com');
     }
 

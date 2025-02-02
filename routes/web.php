@@ -15,11 +15,11 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
-    
+
     Route::post('/deploy-boutique', [DeployController::class, 'store'])->name('deploy.store');
 });
 
 
 Route::domain('{subdomain}.eventchills.com')->group(function () {
-    Route::get('/', [DeployController::class, 'show'])->name('shop.show');
+    Route::get('/', [DeployController::class, 'show'])->name('deploy.show');
 });
