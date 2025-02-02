@@ -40,9 +40,16 @@ class DeployController extends Controller
 
     public function show(Request $request)
     {
-        $shopName = explode('.', $request->getHost())[0];
-        $shop = Boutiques::where('name', $shopName)->firstOrFail();
+        $shopName = request()->route('subdomain');
+
+        $shop = Boutiques::where('name', $shopName)->first();
         
+        if(empty($shop)){
+            Alert::toast("Cette boutique n'existe pas !", 'error');
+
+            return redirect()->route('login');
+        }
+
         return view('shops.show', compact('shop'));
     }
 }
