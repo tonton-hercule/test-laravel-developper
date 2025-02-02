@@ -34,7 +34,7 @@ class DeployController extends Controller
             'subdomain' => $subdomain
         ]);
 
-        return redirect()->away('https://' . $shop->name . '.eventchills.com');
+        return redirect()->away('http://' . $shop->name . '.eventchills.com');
     }
 
 
