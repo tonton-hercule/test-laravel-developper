@@ -30,7 +30,7 @@ class DeployController extends Controller
         }
 
         $subdomain = "{$shopName}.eventchills.com";
-        $deployPath = "/home/{user}/public_html/{$shopName}"; // Adapté à un hébergement mutualisé
+        $deployPath = "/home/u582424496/public_html/{$shopName}"; // Adapté à un hébergement mutualisé
 
         // Vérifier si la boutique existe déjà
         if (File::exists($deployPath)) {
@@ -60,7 +60,8 @@ class DeployController extends Controller
             'shop_name' => $shopName,
             'subdomain' => $subdomain
         ]);
+        Alert::toast("Site créé : http://$subdomain", 'success');
 
-        return redirect()->route('dashboard')->with('success', "Site créé : http://$subdomain");
+        return redirect()->route('dashboard');
     }
 }
